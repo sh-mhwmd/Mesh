@@ -1,0 +1,21 @@
+from numpy import *
+import matplotlib.pyplot as plt
+
+nr,nt=20,30
+z=linspace(-1.5,1.5,nr)
+t=linspace(0,2*pi,nt)
+Z,T= meshgrid(z,t,indexing='ij')
+
+a,b=1,1
+x=a*cos(T)*sqrt(1+Z**2)
+y=b*sin(T)*sqrt(1+Z**2)
+fig=plt.figure(figsize=(6,6))
+ax=fig.add_subplot(111, projection='3d')
+
+for j in range(nr):
+    ax.plot(x[j,:],y[j,:],Z[j,:],color='red')
+
+for i in range(nt):
+    ax.plot(x[:,i],y[:,i],Z[:,i],color='blue')
+
+plt.show()
