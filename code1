@@ -1,0 +1,37 @@
+from numpy import *
+import matplotlib.pyplot as plt
+from matplotlib.collections import LineCollection
+
+x=linspace(0.7,2*pi,20)
+y1=linspace(0,0.6,4)
+y2=linspace(2.5,3.1,4)
+xm1,ym1=meshgrid(x,y1)
+xm2,ym2=meshgrid(x,y2)
+r=0.5
+for i in range(size(xm1,0)):
+    for j in range(size(xm1,1)):
+        ym1[i,j]=ym1[i,j]+r*sin(xm1[i,j])
+        
+for i in range(size(xm2,0)):
+    for j in range(size(xm2,1)):
+        ym2[i,j]=ym2[i,j]-r*sin(xm2[i,j])
+
+ixm1,iym1,ixm2,iym2=ym1,xm1,ym2,xm2
+xfill=stack((ixm1,iym1),axis=2)
+yfill=stack((ixm2,iym1),axis=2)
+horizline = stack((xfill,yfill),axis=2)
+horizline = horizline.reshape(-1,2,2) 
+
+plt.scatter(ixm1,iym1,s=6,c='red')
+plt.scatter(ixm2,iym2,s=6,c='red')       
+mat1=stack((ixm1,iym1),axis=2)
+mat2=stack((ixm2,iym2),axis=2)
+math1=mat1.transpose(1,0,2)
+math2=mat2.transpose(1,0,2)
+plt.gca().add_collection(LineCollection(mat1,linewidths=0.5,colors='red'))
+plt.gca().add_collection(LineCollection(mat2,linewidths=0.5,colors='red'))
+plt.gca().add_collection(LineCollection(math1,linewidths=1,colors='red'))
+plt.gca().add_collection(LineCollection(math2,linewidths=1,colors='red'))
+plt.gca().add_collection(LineCollection(horizline,linewidths=0.6,colors='blue'))
+plt.gca().set_aspect('equal')
+plt.show()
